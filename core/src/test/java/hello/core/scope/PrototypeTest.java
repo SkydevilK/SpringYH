@@ -12,20 +12,20 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class PrototypeTest {
 
     @Test
-    public void protoTypeBeanFind() {
-        AnnotationConfigApplicationContext ac = new AnnotationConfigApplicationContext(ProtoTypeBean.class);
-        System.out.println("find ProtoTypeBean1");
-        ProtoTypeBean protoTypeBean1 = ac.getBean(ProtoTypeBean.class);
-        System.out.println("find ProtoTypeBean2");
-        ProtoTypeBean protoTypeBean2 = ac.getBean(ProtoTypeBean.class);
-        System.out.println("protoTypeBean1 = " + protoTypeBean1);
-        System.out.println("protoTypeBean2 = " + protoTypeBean2);
-        assertThat(protoTypeBean1).isNotSameAs(protoTypeBean2);
+    public void prototypeBeanFind() {
+        AnnotationConfigApplicationContext ac = new AnnotationConfigApplicationContext(PrototypeBean.class);
+        System.out.println("find prototypeBean1");
+        PrototypeBean prototypeBean1 = ac.getBean(PrototypeBean.class);
+        System.out.println("find PrototypeBean2");
+        PrototypeBean prototypeBean2 = ac.getBean(PrototypeBean.class);
+        System.out.println("prototypeBean1 = " + prototypeBean1);
+        System.out.println("prototypeBean2 = " + prototypeBean2);
+        assertThat(prototypeBean1).isNotSameAs(prototypeBean2);
         ac.close();
     }
 
     @Scope("prototype")
-    static class ProtoTypeBean {
+    static class PrototypeBean {
 
         @PostConstruct
         public void init() {
