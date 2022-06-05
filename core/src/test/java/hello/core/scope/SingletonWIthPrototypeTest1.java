@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Scope;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+import javax.inject.Provider;
 
 public class SingletonWIthPrototypeTest1 {
 
@@ -32,7 +33,7 @@ public class SingletonWIthPrototypeTest1 {
 
         ClientBean clientBean2 = ac.getBean(ClientBean.class);
         int count2 = clientBean2.logic();
-        Assertions.assertThat(count2).isEqualTo(2);
+        Assertions.assertThat(count2).isEqualTo(1);
     }
 
     @Scope("prototype")
@@ -60,14 +61,14 @@ public class SingletonWIthPrototypeTest1 {
 
     @Scope("singleton")
     static class ClientBean {
-        private final PrototypeBean prototypeBean;  // 생성 시점에 주입
 
         @Autowired
-        public ClientBean(PrototypeBean prototypeBean) {
-            this.prototypeBean = prototypeBean;
-        }
+        private Provider<PrototypeBean> prototypeBeanProvider;  // 가장 simple하다.
+        //private ObjectProvider<PrototypeBean> prototypeBeanProvider;  => Spring에 의존함
+        //private ObjectFactory<PrototypeBean> prototypeBeanProvider;   => getObject만 제공해 줌
 
         public int logic() {
+            PrototypeBean prototypeBean = prototypeBeanProvider.get();
             prototypeBean.addCount();
             return prototypeBean.getCount();
         }
