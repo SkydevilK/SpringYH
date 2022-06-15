@@ -79,7 +79,7 @@ public class BasicController {
 
     @GetMapping("/literal")
     public String literal(Model model) {
-        model.addAttribute("data","Spring!");
+        model.addAttribute("data", "Spring!");
         return "basic/literal";
     }
 
@@ -102,6 +102,12 @@ public class BasicController {
         return "basic/each";
     }
 
+    @GetMapping("/condition")
+    public String condition(Model model) {
+        addUsers(model);
+        return "basic/condition";
+    }
+
     private void addUsers(Model model) {
         ArrayList<User> list = new ArrayList<>();
         list.add(new User("UserA", 10));
@@ -110,6 +116,7 @@ public class BasicController {
 
         model.addAttribute("users", list);
     }
+
     @Data
     static class User {
         private String username;
