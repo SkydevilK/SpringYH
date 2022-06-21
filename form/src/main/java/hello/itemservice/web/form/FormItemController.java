@@ -9,13 +9,24 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Controller
 @RequestMapping("/form/items")
 @RequiredArgsConstructor
 public class FormItemController {
+
+    @ModelAttribute("regions")
+    public Map<String, String> regions() {
+        Map<String, String> region = new LinkedHashMap<>();
+        region.put("SEOUL", "서울");
+        region.put("BUSAN", "부산");
+        region.put("JEJU", "제주");
+        return region;
+    }
 
     private final ItemRepository itemRepository;
 
@@ -42,6 +53,7 @@ public class FormItemController {
     @PostMapping("/add")
     public String addItem(@ModelAttribute Item item, RedirectAttributes redirectAttributes) {
         log.info("item.open={}", item.getOpen());
+        log.info("item.regions={}", item.getRegions());
 
         Item savedItem = itemRepository.save(item);
         redirectAttributes.addAttribute("itemId", savedItem.getId());
