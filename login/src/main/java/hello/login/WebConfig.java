@@ -1,6 +1,7 @@
 package hello.login;
 
 import hello.login.web.filter.LogFilter;
+import hello.login.web.filter.LoginCheckFilter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,6 +16,16 @@ public class WebConfig {
         FilterRegistrationBean<Filter> filterFilterRegistration = new FilterRegistrationBean<>();
         filterFilterRegistration.setFilter(new LogFilter());
         filterFilterRegistration.setOrder(1);
+        filterFilterRegistration.addUrlPatterns("/*");
+
+        return filterFilterRegistration;
+    }
+
+    @Bean
+    public FilterRegistrationBean loginCheckFilter() {
+        FilterRegistrationBean<Filter> filterFilterRegistration = new FilterRegistrationBean<>();
+        filterFilterRegistration.setFilter(new LoginCheckFilter());
+        filterFilterRegistration.setOrder(2);
         filterFilterRegistration.addUrlPatterns("/*");
 
         return filterFilterRegistration;
